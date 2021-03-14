@@ -1,0 +1,19 @@
+\documentclass[sokoban_generation_thesis.tex]{subfiles}
+
+W niniejszej pracy zdecydowano się zestawić cztery metody generowania poziomów \textit{Sokoban}, pogrupowanych w~tabeli \ref{tab:methods}. Dogłębna analiza metod proponowanych w~literaturze dla problemu generowania poziomów \textit{Sokoban} pozwoliła na~dobór reprezentatywnych metod. Wybrano dwie będące heurystykami, które nie korzystają z~technik uczenia maszynowego, oraz dwie -- korzystające. Ponadto, dobrano dwie, które opierają swoje działanie na~symulacji rozgrywki oraz dwie, które działają bez symulowania działań gracza.
+
+Istotną zaletą analizowanych metod, które symulują rozgrywkę, jest możliwość podania przykładowej sekwencji ruchów, rozwiązujących daną planszę -- tej z~symulacji. Z~kolei metody, w~których nie symuluje się rozgrywki, mogą zostać zastosowane do~innych problemów niż generowanie plansz \textit{Sokoban}, ze~względu na~swoje uogólnienie analizowanego problemu.
+
+\begin{table}[h!]
+	\smallskip
+	\centering
+	\caption{Analizowane metody}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		& \textbf{Heurystyka} & \textbf{Uczenie maszynowe}\\ \hline
+		\textbf{Symulacja rozgrywki} & SYM \cite{heur_sim} & MCTS \cite{sok_mcts} \\ \hline
+		\textbf{Brak symulacji} & PDB \cite{heur_pdb} & PPO \cite{sok_ppo}\\
+		\hline
+	\end{tabular}
+	\label{tab:methods}
+\end{table}

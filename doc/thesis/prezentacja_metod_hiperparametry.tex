@@ -1,0 +1,27 @@
+\documentclass[sokoban_generation_thesis.tex]{subfiles}
+
+Hiperparametry zestawianych metod podzielono na~3 grupy w~celu usystematyzowania podziału.
+
+\begin{enumerate}
+	\item Parametry problemu opisują żądane własności planszy.
+	\item Parametry czasu opisują ograniczenia czasowe działania metody.
+	\item Parametry pracy opisują działanie metody generującej.
+\end{enumerate}
+
+\begin{table}[h!]
+	\smallskip
+	\centering
+	\begin{tabular}{|l|c|l|l|}
+		\hline
+		\textbf{Metoda} & 
+		\begin{tabular}{@{}c@{}}\textbf{Parametry} \\ \textbf{planszy}\end{tabular} & 
+		\begin{tabular}{@{}c@{}}\textbf{Parametry} \\ \textbf{czasu}\end{tabular} & 
+		\begin{tabular}{@{}c@{}}\textbf{Parametry} \\ \textbf{pracy}\end{tabular} \\ \hline
+		SYM & size, max box & f-it, b-it & boxs, pullds, pushds, routegen \\ \hline
+		PDB & instance & time, runs & heur \\ \hline
+		MCTS & size, max box & it~& heur \\ \hline
+		PPO & size, max box & learning steps & repr, change perc, PPO hyper\\ \hline
+	\end{tabular}
+	\caption{Hiperparametry analizowanych metod}
+	\label{tab:hyper_params}
+\end{table}

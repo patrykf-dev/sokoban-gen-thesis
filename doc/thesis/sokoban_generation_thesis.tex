@@ -1,0 +1,486 @@
+\documentclass[a4paper,11pt,twoside]{report}
+% KOMPILOWAĆ ZA~POMOCĄ pdfLaTeXa, PRZEZ XeLaTeXa MOŻE NIE BYĆ POLSKICH ZNAKÓW
+
+\usepackage{subcaption}
+\usepackage{subfiles}
+\usepackage{afterpage}
+\newcommand\blankpage{%
+	\null
+	\thispagestyle{empty}%
+	\addtocounter{page}{-1}%
+	\newpage}
+% -------------- Kodowanie znaków, język polski -------------
+\usepackage[OT4]{fontenc}
+\usepackage[english,polish]{babel}
+
+\usepackage{amsmath, amsfonts, amsthm, latexsym} % głównie symbole matematyczne, środowiska twierdzeń
+
+\usepackage[final]{pdfpages} % inputowanie pdfa
+%\usepackage[backend=bibtex, style=verbose-trad2]{biblatex}
+
+
+% ---------------- Wczytywanie grafik ------------------
+
+\usepackage{graphicx}
+\graphicspath{{grafiki/}{../grafiki/}}
+
+
+% ---------------- Tabele ------------------
+
+\usepackage{float} % for "H" placement specifier
+
+% ---------------------- Hiperłącza --------------------------
+
+\usepackage{hyperref}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
+% ---------------- Marginesy, akapity, interlinia ------------------
+
+
+\usepackage[inner=20mm, outer=20mm, bindingoffset=10mm, top=25mm, bottom=25mm]{geometry}
+
+
+\linespread{1.5}
+\allowdisplaybreaks
+
+\usepackage{indentfirst} % opcjonalnie; pierwszy akapit z~wcięciem
+\setlength{\parindent}{5mm}
+
+
+% ---------------- Formatowanie pseudokodu  ------------------
+
+\usepackage{xcolor}
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0,0.7,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+	language=Python,
+	deletekeywords={from},
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4
+}
+\lstdefinestyle{mystylenonumbers}{
+	language=Python,
+	deletekeywords={from},
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=none,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4
+}
+
+%--------------------------- ŻYWA PAGINA ------------------------
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+% numery stron: lewa do~lewego, prawa do~prawego 
+\fancyfoot[LE,RO]{\thepage} 
+% prawa pagina: zawartość \rightmark do~lewego, wewnętrznego (marginesu) 
+\fancyhead[LO]{\sc \nouppercase{\rightmark}}
+% lewa pagina: zawartość \leftmark do~prawego, wewnętrznego (marginesu) 
+\fancyhead[RE]{\sc \leftmark}
+
+\renewcommand{\chaptermark}[1]{
+\markboth{\thechapter.\ #1}{}}
+
+% kreski oddzielające paginy (górną i~dolną):
+\renewcommand{\headrulewidth}{0 pt} % 0 - nie ma, 0.5 - jest linia
+
+
+\fancypagestyle{plain}{% to~definiuje wygląd pierwszej strony nowego rozdziału - obecnie tylko numeracja
+  \fancyhf{}%
+  \fancyfoot[LE,RO]{\thepage}%
+  
+  \renewcommand{\headrulewidth}{0pt}% Line at~the header invisible
+  \renewcommand{\footrulewidth}{0.0pt}
+}
+
+% ---------------- Nagłówki rozdziałów ---------------------
+
+\usepackage{titlesec}
+\titleformat{\chapter}%[display]
+  {\normalfont\Large \bfseries}
+  {\thechapter.}{1ex}{\Large}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries}
+  {\thesection.}{1ex}{}
+\titlespacing{\section}{0pt}{30pt}{20pt} 
+%\titlespacing{\co}{akapit}{ile przed}{ile po} 
+    
+\titleformat{\subsection}
+  {\normalfont \bfseries}
+  {\thesubsection.}{1ex}{}
+
+
+% ----------------------- Spis treści ---------------------------
+\def\cleardoublepage{\clearpage\if@twoside
+\ifodd\c@page\else\hbox{}\thispagestyle{empty}\newpage
+\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+
+
+% kropki dla chapterów
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\l@chapter}
+  {\hfil}
+  {\leaders\hbox{\normalfont$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill}
+  {}{}
+\makeatother
+
+\usepackage{titletoc}
+\makeatletter
+\titlecontents{chapter}% <section-type>
+  [0pt]% <left>
+  {}% <above-code>
+  {\bfseries \thecontentslabel.\quad}% <numbered-entry-format>
+  {\bfseries}% <numberless-entry-format>
+  {\bfseries\leaders\hbox{\normalfont$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill\contentspage}% <filler-page-format>
+
+\titlecontents{section}
+  [1em]
+  {}
+  {\thecontentslabel.\quad}
+  {}
+  {\leaders\hbox{\normalfont$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill\contentspage}
+
+\titlecontents{subsection}
+  [2em]
+  {}
+  {\thecontentslabel.\quad}
+  {}
+  {\leaders\hbox{\normalfont$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill\contentspage}
+\makeatother
+
+
+
+% ---------------------- Spisy tabel i~obrazków ----------------------
+
+\renewcommand*{\thetable}{\arabic{chapter}.\arabic{table}}
+\renewcommand*{\thefigure}{\arabic{chapter}.\arabic{figure}}
+\usepackage{caption}
+\captionsetup[table]{name=Tabela}
+%\let\c@table\c@figure % jeśli włączone, numeruje tabele i~obrazki razem
+
+
+% --------------------- Definicje, twierdzenia etc. ---------------
+
+
+\makeatletter
+\newtheoremstyle{definition}%    % Name
+{3ex}%                          % Space above
+{3ex}%                          % Space below
+{\upshape}%                      % Body font
+{}%                              % Indent amount
+{\bfseries}%                     % Theorem head font
+{.}%                             % Punctuation after theorem head
+{.5em}%                            % Space after theorem head, ' ', or~\newline
+{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}%  % Theorem head spec (can be~left empty, meaning `normal')
+\makeatother
+
+% ----------------------------- POLSKI --------------------------------
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Twierdzenie}[chapter]
+\newtheorem{lemma}[theorem]{Lemat}
+\newtheorem{example}[theorem]{Przykład}
+\newtheorem{proposition}[theorem]{Stwierdzenie}
+\newtheorem{corollary}[theorem]{Wniosek}
+\newtheorem{definition}[theorem]{Definicja}
+\newtheorem{remark}[theorem]{Uwaga}
+
+% -------------------------- POCZĄTEK --------------------------
+
+
+% --------------------- Ustawienia użytkownika ------------------
+
+\newcommand{\tytul}{Zestawienie technik uczenia maszynowego i~heurystyk zastosowanych do~proceduralnego generowania poziomów w~grze Sokoban}
+\newcommand{\tytulen}{Comparison of~machine learning techniques and heuristics used for procedural level generation in~Sokoban game}
+\newcommand{\supervisor}{dr inż. Maciej Bartoszuk}
+
+
+
+\begin{document}
+\sloppy
+
+\includepdf[pages=-]{titlepage}
+
+
+% ------------------ STRONA Z~PODPISAMI AUTORA/AUTORÓW I~PROMOTORA ------------------
+
+
+\thispagestyle{empty}\newpage
+\null
+
+\vfill
+
+\begin{center}
+\begin{tabular}[t]{ccc}
+
+............................................. & \hspace*{100pt} & .............................................\\
+podpis promotora & \hspace*{100pt} & podpis autora
+
+
+\end{tabular}
+\end{center}
+
+
+
+% ---------------------------- ABSTRAKTY -----------------------------
+% W~PRACY PO~POLSKU, NAPIERW STRESZCZENIE PL, POTEM ABSTRACT EN
+
+{
+\begin{abstract}
+
+\begin{center}
+\tytul
+\end{center}
+
+Celem pracy jest wszechstronne porównanie czterech technik, które zostaną zastosowane do~proceduralnego generowania poziomów w~grze \textit{Sokoban}. Zestawienie czterech fundamentalnie różnych technik pozwoli na~wyznaczenie ich mocnych i~słabych stron, dając tym samym podłoże do~dalszego rozwoju badań nad generowaniem proceduralnym. 
+
+W pracy zostanie sprawdzone, jak konfigurowalne są~poszczególne metody pod kątem trudności i~rozmiaru poziomu. Zostanie zbadana efektywność czasowa każdej z~metod. Przy użyciu autorskich metryk zostanie również określone, jak skomplikowane poziomy mogą zostać wygenerowane przez prezentowane techniki.~\textit{Sokoban} jest prostą grą łamigłówkową, w~której gracz ma~za~zadanie przemieścić przedmioty w~wyznaczone miejsca na~planszy będącej prostokątną siatką, gdzie każde pojedyncze pole jest kwadratem. Trudność gry jest zależna od~rozmieszczenia przedmiotów i~przeszkód na~planszy (poziomie). Zastosowanie proceduralnego generowania poziomów ma~na~celu odciążyć twórcę gry z~wymyślania ich. Ponadto, generowanie proceduralne może potencjalnie tworzyć poziomy znacznie bardziej zawiłe niż wymyśliłby je~człowiek.
+
+Większość opisywanych w~literaturze algorytmów wymaga czasochłonnego procesu uczenia agenta. Ten proces ma~charakter inkrementalny i~techniki oparte na~nim należą do~zbioru algorytmów uczenia maszynowego. Z~tego powodu, poza dwoma technikami z~tego działu, zostaną również zaprezentowane dwie heurystyki, co~pozwoli na~zestawienie podejścia heurystycznego z~uczeniem maszynowym. Ponadto, weryfikacji zostanie poddana wartość dodana płynąca z~wiedzy eksperckiej w~kontekście generowania poziomów.\\
+
+
+\noindent \textbf{Słowa kluczowe:} Generowanie proceduralne, sztuczna inteligencja, heurystyka, \textit{Sokoban}, uczenie maszynowe
+\end{abstract}
+}
+
+\null\thispagestyle{empty}\newpage
+
+{\selectlanguage{english}
+\begin{abstract}
+
+\begin{center}
+\tytulen
+\end{center}
+
+The purpose of~this paper is~to~comprehensively compare four techniques that are~applied to~procedural level generation in~the game \textit{Sokoban}. The comparison of~the four fundamentally different techniques allows to~determine their strengths and weaknesses, thus providing a~foundation for further research on~procedural generation. 
+
+The thesis will examine how configurable each method is~in~terms of~difficulty and level size. The time efficiency of~each method will be~examined. Using author's metrics, it~is also determined how complex levels can be~generated by~the techniques presented.~\textit{Sokoban} is~a~simple puzzle game in~which the player has to~move objects to~designated locations on~a~board that is~a~rectangular grid where each individual box is~a~square. The difficulty of~the game depends on~the arrangement of~objects and obstacles on~the board (level). The use of~procedural generation of~levels is~intended to~ease developer's work. Furthermore, procedural generation has the potential to~create levels much more intricate than a~human would come up~with.
+
+Most of~the algorithms described in~the literature require a~time-consuming process of~learning the agent. This process is~incremental and techniques based on~it~belong to~the set of~machine learning algorithms. For this reason, in~addition to~the two techniques in~this section, two heuristics will also be~presented to~contrast the heuristic approach with machine learning one. Furthermore, the value of~expert knowledge in~the context of~level generation will be~verified.\\
+
+\noindent \textbf{Keywords:} Procedural content generation, artificial intelligence, heuristics, \textit{Sokoban}, machine learning
+\end{abstract}
+}
+
+
+% --------------------- OŚWIADCZENIE -----------------------------------------
+
+
+\null\thispagestyle{empty}\newpage
+
+\null \hfill Warszawa, dnia ..................\\
+
+\par\vspace{5cm}
+
+\begin{center}
+Oświadczenie
+\end{center}
+
+\indent Oświadczam, że~pracę magisterską pod tytułem ,,\tytul '', której promotorem jest \supervisor, wykonałem samodzielnie, co~poświadczam własnoręcznym podpisem.
+\vspace{2cm}
+
+\begin{flushright}
+  \begin{minipage}{50mm}
+    \begin{center}
+      ..............................................
+
+    \end{center}
+  \end{minipage}
+\end{flushright}
+
+\thispagestyle{empty}
+\newpage
+
+\null\thispagestyle{empty}\newpage
+
+
+% ------------------- 4. Spis treści ---------------------
+\pagenumbering{gobble}
+\tableofcontents
+\thispagestyle{empty}
+
+% -------------- 5. ZASADNICZA CZĘŚĆ PRACY --------------------
+\null\thispagestyle{empty}\newpage
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\setcounter{page}{11} % JEŻELI Z~POWODU DUŻEJ ILOŚCI STRON W~SPISIE TREŚCI SIĘ NIE ZGADZA, TRZEBA ZMODYFIKOWAĆ RĘCZNIE
+
+\chapter{Wstęp} \label{chap:wstep}
+\subfile{wstep}
+
+\chapter{Prezentacja metod} \label{chap:prezentacja_metod}
+\subfile{prezentacja_metod}
+\cleardoublepage
+\section{Metoda SYM}
+\subfile{prezentacja_metod_sym}
+\cleardoublepage
+\section{Metoda PDB}
+\subfile{prezentacja_metod_pdb}
+\cleardoublepage
+\section{Metoda MCTS}
+\subfile{prezentacja_metod_mcts}
+\cleardoublepage
+\section{Metoda PPO}
+\subfile{prezentacja_metod_ppo}
+\cleardoublepage
+
+\chapter{Wyniki eksperymentów} \label{chap:work}
+\subfile{wyniki_eksperymentow}
+\cleardoublepage
+\section{Metoda SYM} \label{subs:exp_sym}
+\subfile{wyniki_eks_sym}
+\cleardoublepage
+\section{Metoda PDB} \label{subs:exp_pdb}
+\subfile{wyniki_eks_pdb}
+\cleardoublepage
+\section{Metoda MCTS}
+\subfile{wyniki_eks_mcts}
+\cleardoublepage
+\section{Metoda PPO} \label{subs:exp_ppo}
+\subfile{wyniki_eks_ppo}
+\cleardoublepage
+\section{Ogólne metryki} \label{subs:metric_auth}
+\subfile{ogolne_metryki}
+\cleardoublepage
+\section{Zestawienie metod}
+\subfile{wyniki_eks_zestawienie}
+\cleardoublepage
+\chapter{Podsumowanie}
+\subfile{podsumowanie}
+\cleardoublepage
+
+
+% -------------------- 6. Bibliografia -----------------------
+% Bibliografia leksykograficznie wg~nazwisk autorów
+\begin{thebibliography}{32}%jak ktoś ma~więcej książek, to~niech wpisze większą liczbę
+
+\bibitem[1]{ucbv} Jean-Yves Audibert, Remi Munos, Csaba Szepesvári, \emph{Tuning Bandit Algorithms in~Stochastic Environments}, Algorithmic Learning Theory 18th International Conference, Sendai, Japan, October 1--4, 2007.
+
+\bibitem[2]{spelunky_gen} Walaa Baghdadi, Fawzya Shams Eddin, Rawan Al-Omari, Zeina Alhalawani, Mohammad Shaker, Noor Shaker \emph{A Procedural Method for Automatic Generation of~Spelunky Levels}, European Conference on~the Applications of~Evolutionary Computation, 2015.
+	
+\bibitem[3]{heur_pdb} Damaris S.~Bento, Andre G.~Pereira and Levi H.~S.~Lelis, \emph{Procedural Generation of~Initial States of~Sokoban}, Federal University of~Rio Grande do~Sul, Federal University of~Viçosa, Brazil, 2019.
+
+\bibitem[4]{pcgrl_scanning} Nathan Brewer, \emph{Computerized Dungeons and Randomly Generated Worlds: From Rogue to~Minecraft}, Proceedings of~the IEEE, vol. 105, no. 5, pp. 970--977, May 2017.
+
+\bibitem[5]{pdb_original} Joseph C.~Culberson, Jonathan Schaeffer, \emph{Searching with pattern databases}, Canadian Conference on~Artificial Intelligence, pages 402–-416, 1996.
+
+\bibitem[6]{sokoban_pspace} Joseph C.~Culberson, \emph{Sokoban is~PSPACE-complete}, 1997.
+
+\bibitem[7]{massive_gen} Guy Davis, \emph{Massive - Multiple Agent Simulation System in~Virtual Environment}, 2003.
+	
+\bibitem[8]{simcity_neural} Sam Earle, \emph{Using fractal neural networks to~play simcity 1 and conways game of~life at~variable scales}, AIIDE Workshop on~Experimental AI~in~Games, 2019.
+	
+\bibitem[9]{pdb_additive} Ariel Felner, Richard E.~Korf, Sarit Hanan, \emph{Additive pattern database heuristics}, Journal of~Artificial Intelligence Research, vol. 22, pp.279-–318, 2004.
+
+\bibitem[10]{galactic_arms_race} Erin J.~Hastings, Ratan K.~Guha, Kenneth O.~Stanley, \emph{Automatic Content Generation in~the Galactic Arms Race Video Game}, IEEE Transactions on~Computational Intelligence and AI~in~Games 1, vol. 4, pp. 245--263, 2010.
+
+\bibitem[11]{mctsanalysis} Steven James, George Konidaris, Benjamin Rosman, \emph{An Analysis of~Monte Carlo Tree Search}, University of~the Witwatersrand, Johannesburg, South Africa.
+
+\bibitem[12]{sok_metrics2} Petr Jarušek, Radek Pelánek, \emph{Difficulty rating of~sokoban puzzle}, STAIRS 2010, IOS Press, pp. 140--150, 2010.
+
+\bibitem[13]{sok_metrics3} Petr Jarušek, Radek Pelánek, \emph{Human problem solving: Sokoban case study}, Faculty of~Informatics Masaryk University, Brno, 2010.
+
+\bibitem[14]{sok_metrics} Petr Jarušek, Radek Pelánek, \emph{What Determines Difficulty of~Transport Puzzles?}, XXIV International FLAIRS Conference, Florida, USA, 2011.
+
+\bibitem[15]{mcts_improve} Simon J.~Karman, ~\emph{Generating Sokoban Levels that are Interesting to~Play using Simulation}, Utrecht University, 2018.
+
+\bibitem[16]{sok_mcts} Bilal Kartal, Nick Sohre, and Stephen J.~Guy, \emph{Data-Driven Sokoban Puzzle Generation with Monte Carlo Tree Search}, University of~Minnesota, United States, 2016.
+
+\bibitem[17]{sok_ppo} Ahmed Khalifa, Philip Bontrager, Sam Earle, Julian Togelius, \emph{PCGRL: Procedural Content Generation via Reinforcement Learning}, New York University, United States, 2020.
+
+\bibitem[18]{uct_original} Levente Kocsis, Csaba Szepesvári, \emph{Bandit based Monte-Carlo Planning}, European Conference on~Machine Learning, Berlin, Germany, September 18--22, 2006.
+
+\bibitem[19]{pdb_novelty} Nir Lipovetzky, Hector Geffner, \emph{Best-first width search: Exploration and exploitation in~classical planning}, AAAI Conference on~Artificial Intelligence, pp. 3590–-3596, 2017.
+
+\bibitem[20]{deep_learning_pcgrl} Jialin Liu, Sam Snodgrass, Ahmed Khalifa, Sebastian Risi, Georgios N.~Yannakakis, Julian Togelius, \emph{Deep learning for procedural content generation}, Neural Computing and Applications 33, pp. 19--37, 2021.
+
+\bibitem[21]{ucbminimal} Francis Maes, Louis Wehenkel, Damien Ernst, \emph{Automatic Discovery of~Ranking Formulas for Playing with Multi-armed Bandits}, European Workshop on~Reinforcement Learning, Athens, Greece, September 9--11, 2011.
+
+\bibitem[22]{solver_pdb} Andre G.~Pereira, Marcus Ritt, Luciana S.~Buriol, \emph{Optimal sokoban solving using pattern databases with specific domain knowledge}, Artificial Intelligence, vol. 227, pp. 52–-70, 2015.
+
+\bibitem[23]{ale_deepq} Volodymyr Mnih, Kavukcuoglu K., Silver D., Rusu A.~A., \emph{Humanlevel control through deep reinforcement learning.} Nature 518(7540), 2015.
+
+\bibitem[24]{pdb_example} Florian Pommerening, Gabriele Roger, Malte Helmert, \emph{Getting the most out of~pattern databases for classical planning}, International Joint Conference on~Artificial Intelligence, 2013.
+
+\bibitem[25]{terragen} Che Mat Ruzinoor, Abdul Rashid Mohamed Shariff, Biswajeet Pradhan, Mahmud Rodzi Ahmad, \emph{A review on~3D terrain visualization of~GIS data: techniques and software}, Geo-spatial Information Science, vol. 15:2, pp. 105--115, 2012.
+
+\bibitem[26]{game_industry_creative} Piotr Rykała, \emph{The growth of~the gaming industry in~the context of~creative industries}, Uniwersytet Ekonomiczny w~Katowicach, 2020.
+
+\bibitem[27]{heur_worse} Joshua Taylor, Ian Parberry, \emph{Procedural generation of~Sokoban levels}, Technical Report LARC, Laboratory for Recreational Computing, University of~North Texas, 2011.
+
+\bibitem[28]{mario_gan} Vanessa Volz, Jacob Schrum, Jialin Liu, Simon M.~Lucas, Adam Smith, Sebastian Risi, \emph{Evolving Mario Levels in~the Latent Space of~a~Deep Convolutional Generative Adversarial Network}, 2018.
+
+\bibitem[29]{heur_sim} Wu~Yueyang, \emph{An Efficient Approach of~Sokoban Level Generation}, Graduate School of~Computer and Information Science, Hosei University, Japan, 2020.
+
+\bibitem[30]{e3_game_industry} USA Today, \emph{E3 2021: Video games are bigger business than ever, topping movies and music combined}, 2021.
+
+\bibitem[31]{sok_wiki} \textit{Sokoban} wiki: http://www.sokobano.de/wiki.
+
+\bibitem[32]{jsoko_website} \textit{JSoko} website: https://www.sokoban-online.de.
+\end{thebibliography}
+
+\thispagestyle{empty}
+\pagenumbering{gobble}
+
+%\chapter*{Wykaz najważniejszych oznaczeń i~skrótów}
+%\subfile{slowniczek}
+
+% ----- 8. Spis rysunków - jeśli nie ma, zakomentować --------
+\listoffigures
+\thispagestyle{empty}
+
+
+% ------------ 9. Spis tabel - jak wyżej ------------------
+\renewcommand{\listtablename}{Spis tabel}
+\listoftables
+\thispagestyle{empty}
+
+
+% 10. Spis załączników - jak nie ma~załączników, to~zakomentować lub usunąć
+
+\chapter*{Spis załączników}
+\begin{enumerate}
+\item Płyta CD~zawierająca:
+\begin{itemize}
+	\item dokument z~treścią pracy dyplomowej,
+	\item streszczenie w~języku polskim,
+	\item streszczenie w~języku angielskim,
+	\item kod programów.
+\end{itemize}
+\end{enumerate}
+\thispagestyle{empty}
+
+
+\end{document}

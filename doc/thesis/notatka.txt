@@ -1,0 +1,38 @@
+SYM
+	PROBLEM: size, max box
+	TIME: f-it, b-it
+	WORK: boxs, pullds, pushds, routegen
+PDB
+	PROBLEM: instance
+	TIME: time
+	WORK: heur
+MCTS
+	PROBLEM: size, max box
+	TIME: iterations
+	WORK: heur
+RL
+	PROBLEM: size, max box
+	TIME: steps
+	WORK: representation, change percentage, PPO params
+	
+
+
+CO TRZEBA BADAĆ
+* Ram usage
+* Czy są trudne dla solverów? Trudniejsze niż te tworzone przez ludzi?
+
+
+SPIS TREŚCI
+Prezentacja metod
+	Metoda SYM
+	Metoda PDB
+	Metoda MCTS
+	Metoda QDCA
+Zastosowane metryki
+	Metryka 1
+	Metryka 2
+Wyniki eksperymentów
+	Metoda SYM
+	Metoda PDB
+	Metoda MCTS
+	Metoda QDCA
